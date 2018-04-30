@@ -66,3 +66,23 @@ def test_valid_king_move():
   assert not is_valid_king_move(0, 0, -1, 0)
   assert not is_valid_king_move(0, 0, 0, -1)
 
+def test_value_pawn_move():
+  assert is_valid_pawn_move(1, 1, 1, 2, True)
+  assert is_valid_pawn_move(1, 1, 0, 2, True)
+  assert is_valid_pawn_move(1, 1, 2, 2, True)
+  assert is_valid_pawn_move(1, 1, 1, 3, True)
+  assert not is_valid_pawn_move(1, 1, 1, 4, True)
+  assert not is_valid_pawn_move(1, 2, 1, 4, True)
+
+  assert is_valid_pawn_move(1, 6, 1, 5, False)
+  assert is_valid_pawn_move(1, 6, 0, 5, False)
+  assert is_valid_pawn_move(1, 6, 2, 5, False)
+  assert is_valid_pawn_move(1, 6, 1, 4, False)
+  assert not is_valid_pawn_move(1, 6, 1, 3, False)
+  assert not is_valid_pawn_move(1, 5, 1, 3, False)
+
+  assert not is_valid_pawn_move(0, 1, 0, 1, True)
+  assert not is_valid_pawn_move(0, 6, 0, 6, False)
+  assert not is_valid_pawn_move(0, 7, 0, 8, True)
+  assert not is_valid_pawn_move(0, 6, 0, 7, False)
+
