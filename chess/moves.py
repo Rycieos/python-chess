@@ -6,6 +6,8 @@ def space_on_board(x, y):
   return x in valid_spaces and y in valid_spaces
 
 def convert_from_chess_space(space):
+  if len(space) != 2:
+    raise ValueError("input string '{}' not chess space".format(space))
   x = cols.index(space[0])
   y = int(space[1]) - 1
   if not space_on_board(x, y):

@@ -20,6 +20,30 @@ def test_space_on_board():
   assert not space_on_board(.5, 0)
   assert not space_on_board('a', 1)
 
+def test_convert_from_chess_space():
+  assert convert_from_chess_space('a1') == (0, 0)
+  assert convert_from_chess_space('h8') == (7, 7)
+  assert convert_from_chess_space('c7') == (2, 6)
+  with pytest.raises(ValueError):
+    convert_from_chess_space('i8')
+  with pytest.raises(ValueError):
+    convert_from_chess_space('')
+  with pytest.raises(ValueError):
+    convert_from_chess_space('1a')
+  with pytest.raises(ValueError):
+    convert_from_chess_space('a0')
+  with pytest.raises(ValueError):
+    convert_from_chess_space('a9')
+
+def test_convert_to_chess_space():
+  assert convert_to_chess_space(0, 0) == 'a1'
+  assert convert_to_chess_space(7, 7) == 'h8'
+  assert convert_to_chess_space(2, 6) == 'c7'
+  with pytest.raises(ValueError):
+    convert_to_chess_space(-1, 6)
+  with pytest.raises(ValueError):
+    convert_to_chess_space(0, 8)
+
 def test_all_valid_knight_moves():
   assert valid_knight_moves(0, 0) == {(2, 1), (1, 2)}
   assert valid_knight_moves(1, 1) == {(0, 3), (2, 3), (3, 2), (3, 0)}
