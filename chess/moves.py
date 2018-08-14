@@ -1,3 +1,4 @@
+from chess.piece import PieceColor
 
 cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 valid_spaces = range(8)
@@ -61,13 +62,13 @@ def is_valid_king_move(start_x, start_y, end_x, end_y):
   dy = abs(start_y - end_y)
   return dx <= 1 and dy <= 1 and dx + dy != 0
 
-def is_valid_pawn_move(start_x, start_y, end_x, end_y, white):
+def is_valid_pawn_move(start_x, start_y, end_x, end_y, color):
   if not space_on_board(end_x, end_y):
     return False
   dx = start_x - end_x
   dy = start_y - end_y
 
-  if white:
+  if color == PieceColor.WHITE or color == True:
     return (dy == -1 and -1 <= dx <= 1) or (start_y <= 1 and dy == -2 and dx == 0)
   else:
     return (dy == 1 and -1 <= dx <= 1) or (start_y >= 6 and dy == 2 and dx == 0)

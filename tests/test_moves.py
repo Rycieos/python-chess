@@ -3,6 +3,7 @@
 import pytest
 
 from chess.moves import *
+from chess.piece import PieceColor
 
 def test_space_on_board():
   assert space_on_board(0, 0)
@@ -19,6 +20,7 @@ def test_space_on_board():
 
   assert not space_on_board(.5, 0)
   assert not space_on_board('a', 1)
+  assert not space_on_board(2, None)
 
 def test_convert_from_chess_space():
   assert convert_from_chess_space('a1') == (0, 0)
@@ -34,6 +36,8 @@ def test_convert_from_chess_space():
     convert_from_chess_space('a0')
   with pytest.raises(ValueError):
     convert_from_chess_space('a9')
+  with pytest.raises(ValueError):
+    convert_from_chess_space('a2a')
 
 def test_convert_to_chess_space():
   assert convert_to_chess_space(0, 0) == 'a1'
@@ -43,6 +47,8 @@ def test_convert_to_chess_space():
     convert_to_chess_space(-1, 6)
   with pytest.raises(ValueError):
     convert_to_chess_space(0, 8)
+  with pytest.raises(ValueError):
+    convert_to_chess_space(2, None)
 
 def test_all_valid_knight_moves():
   assert valid_knight_moves(0, 0) == {(2, 1), (1, 2)}
@@ -77,6 +83,7 @@ def test_valid_queen_move():
   assert is_valid_queen_move(0, 0, 0, 1)
   assert is_valid_queen_move(0, 0, 1, 0)
   assert not is_valid_queen_move(0, 0, 1, 2)
+  assert not is_valid_queen_move(0, 0, 0, 0)
   assert not is_valid_queen_move(0, 0, -1, 2)
   assert not is_valid_queen_move(0, 0, 1, 8)
 
@@ -86,6 +93,7 @@ def test_valid_king_move():
   assert is_valid_king_move(0, 0, 1, 0)
   assert not is_valid_king_move(0, 0, 2, 0)
   assert not is_valid_king_move(0, 0, 0, 2)
+  assert not is_valid_king_move(0, 0, 0, 0)
   assert not is_valid_king_move(0, 0, 3, 4)
   assert not is_valid_king_move(0, 0, -1, 0)
   assert not is_valid_king_move(0, 0, 0, -1)
@@ -95,6 +103,8 @@ def test_value_pawn_move():
   assert is_valid_pawn_move(1, 1, 0, 2, True)
   assert is_valid_pawn_move(1, 1, 2, 2, True)
   assert is_valid_pawn_move(1, 1, 1, 3, True)
+  assert is_valid_pawn_move(1, 1, 1, 3, PieceColor.WHITE)
+  assert not is_valid_pawn_move(1, 1, 1, 3, PieceColor.BLACK)
   assert not is_valid_pawn_move(1, 1, 1, 4, True)
   assert not is_valid_pawn_move(1, 2, 1, 4, True)
 
@@ -102,6 +112,8 @@ def test_value_pawn_move():
   assert is_valid_pawn_move(1, 6, 0, 5, False)
   assert is_valid_pawn_move(1, 6, 2, 5, False)
   assert is_valid_pawn_move(1, 6, 1, 4, False)
+  assert is_valid_pawn_move(1, 6, 1, 4, PieceColor.BLACK)
+  assert not is_valid_pawn_move(1, 6, 1, 4, PieceColor.WHITE)
   assert not is_valid_pawn_move(1, 6, 1, 3, False)
   assert not is_valid_pawn_move(1, 5, 1, 3, False)
 
