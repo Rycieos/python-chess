@@ -3,7 +3,7 @@
 import pytest
 
 from chess.moves import *
-from chess.piece import PieceColor
+from chess.piece import *
 
 def test_space_on_board():
   assert space_on_board(0, 0)

@@ -1,4 +1,4 @@
-from chess.piece import PieceColor
+from chess.piece import *
 
 cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 valid_spaces = range(8)
