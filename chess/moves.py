@@ -20,6 +20,22 @@ def convert_to_chess_space(x, y):
     raise ValueError("coords ({}, {}) not on board".format(x, y))
   return "{}{}".format(cols[x], y + 1)
 
+def is_valid_piece_move(piece, move):
+  if not isinstance(piece, Piece):
+    raise ValueError("piece {} not a valid piece type".format(piece))
+  if piece.type == PieceType.PAWN:
+    return is_valid_pawn_move(*move, color = piece.color)
+  elif piece.type == PieceType.KNIGHT:
+    return is_valid_knight_move(*move)
+  elif piece.type == PieceType.BISHOP:
+    return is_valid_bishop_move(*move)
+  elif piece.type == PieceType.ROOK:
+    return is_valid_rook_move(*move)
+  elif piece.type == PieceType.QUEEN:
+    return is_valid_queen_move(*move)
+  elif piece.type == PieceType.KING:
+    return is_valid_king_move(*move)
+
 def valid_knight_moves(x, y):
   all_moves = {
       (x + 2, y + 1), (x + 2, y - 1),
@@ -60,7 +76,8 @@ def is_valid_king_move(start_x, start_y, end_x, end_y):
     return False
   dx = abs(start_x - end_x)
   dy = abs(start_y - end_y)
-  return dx <= 1 and dy <= 1 and dx + dy != 0
+  return (dx <= 1 and dy <= 1 and dx + dy != 0) or ((start_y == 0 or
+    start_y == 7) and start_x == 4 and dy == 0 and dx == 2)
 
 def is_valid_pawn_move(start_x, start_y, end_x, end_y, color):
   if not space_on_board(end_x, end_y):

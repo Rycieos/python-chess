@@ -50,6 +50,28 @@ def test_convert_to_chess_space():
   with pytest.raises(ValueError):
     convert_to_chess_space(2, None)
 
+def test_valid_piece_move():
+  assert is_valid_piece_move(Piece("K"), (0, 0, 1, 1))
+  assert not is_valid_piece_move(Piece("k"), (0, 0, 5, 1))
+  assert is_valid_piece_move(Piece("q"), (0, 0, 3, 3))
+  assert not is_valid_piece_move(Piece("Q"), (0, 0, 5, 2))
+  assert is_valid_piece_move(Piece("R"), (0, 0, 4, 0))
+  assert not is_valid_piece_move(Piece("r"), (0, 0, 5, 1))
+  assert is_valid_piece_move(Piece("B"), (0, 0, 3, 3))
+  assert not is_valid_piece_move(Piece("b"), (0, 0, 3, 2))
+  assert is_valid_piece_move(Piece("N"), (0, 0, 2, 1))
+  assert not is_valid_piece_move(Piece("n"), (0, 0, 5, 1))
+  assert is_valid_piece_move(Piece("P"), (0, 0, 1, 1))
+  assert is_valid_piece_move(Piece("P"), (0, 0, 0, 1))
+  assert not is_valid_piece_move(Piece("P"), (1, 1, 1, 0))
+  assert is_valid_piece_move(Piece("p"), (1, 6, 1, 5))
+  assert is_valid_piece_move(Piece("p"), (1, 6, 1, 4))
+  assert not is_valid_piece_move(Piece("p"), (1, 6, 1, 7))
+  with pytest.raises(ValueError):
+    is_valid_piece_move("K", (1, 6, 1, 7))
+  with pytest.raises(ValueError):
+    is_valid_piece_move(None, (1, 6, 1, 7))
+
 def test_all_valid_knight_moves():
   assert valid_knight_moves(0, 0) == {(2, 1), (1, 2)}
   assert valid_knight_moves(1, 1) == {(0, 3), (2, 3), (3, 2), (3, 0)}
@@ -97,6 +119,13 @@ def test_valid_king_move():
   assert not is_valid_king_move(0, 0, 3, 4)
   assert not is_valid_king_move(0, 0, -1, 0)
   assert not is_valid_king_move(0, 0, 0, -1)
+  # Castling
+  assert is_valid_king_move(4, 0, 6, 0)
+  assert is_valid_king_move(4, 0, 2, 0)
+  assert is_valid_king_move(4, 7, 2, 7)
+  assert is_valid_king_move(4, 7, 6, 7)
+  assert not is_valid_king_move(3, 7, 5, 7)
+  assert not is_valid_king_move(4, 6, 6, 6)
 
 def test_value_pawn_move():
   assert is_valid_pawn_move(1, 1, 1, 2, True)
